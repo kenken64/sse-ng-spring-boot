@@ -20,6 +20,15 @@
         <mat-icon>cloud_download</mat-icon>
         Download & Play Music
       </button>
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="refresh()"
+        [disabled]="loading"
+        aria-label="Refresh"
+      >
+        <mat-icon>refresh</mat-icon>
+      </button>
     </div>
 
     <!-- Material Spinner shown while loading -->

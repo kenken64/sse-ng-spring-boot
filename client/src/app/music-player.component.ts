@@ -103,6 +103,16 @@ export class MusicPlayerComponent {
     });
   }
 
+   refresh(): void {
+    // Reset all relevant state, and optionally restart download/SSE
+    if (this.audioSrc) {
+      URL.revokeObjectURL(this.audioSrc);
+      this.audioSrc = null;
+    }
+    this.audioReady = false;
+    this.error = null;
+  }
+
   // Clean up on destroy
   ngOnDestroy() {
     if (this.audioSrc) {
