@@ -13,6 +13,7 @@ export class MusicPlayerComponent {
   audioReady = false;
   error: string | null = null;
   audioSrc: string | null = null;
+  loading = false; // <--- NEW: Track loading state
 
   constructor(
     private http: HttpClient,
@@ -21,10 +22,13 @@ export class MusicPlayerComponent {
   ) {}
 
   startDownload(): void {
-    console.log('dddd');
+    this.loading = true; // <--- NEW: Show progress
     this.http.get('/api/download-music', { responseType: 'text' }).subscribe({
       next: () => this.startSse(),
-      error: (err) => (this.error = err.message),
+      error: (err) => {
+        this.error = err.message;
+        this.loading = false; // <--- NEW: Hide progress on error
+      },
     });
   }
 
@@ -70,6 +74,7 @@ export class MusicPlayerComponent {
           this.audioReady = true;
           // Force change detection
           this.cdr.detectChanges();
+          this.loading = false; // <--- NEW: Hide progress
           setTimeout(() => {
             const audioPlayer = document.getElementById(
               'audioPlayer'
@@ -88,9 +93,13 @@ export class MusicPlayerComponent {
         } catch (error) {
           console.error('Error processing audio data:', error);
           console.error('❌ SSE Error:', error);
+          this.loading = false; // <--- NEW: Hide progress
         }
       },
-      error: (err) => (this.error = err.message),
+      error: (err) => {
+        this.error = err.message;
+        this.loading = false; // <--- NEW: Hide progress
+      },
     });
   }
 

@@ -18,8 +18,21 @@
         [disabled]="audioReady"
       >
         <mat-icon>cloud_download</mat-icon>
-        Start SSE
+        Download & Play Music
       </button>
+    </div>
+
+    <!-- Material Spinner shown while loading -->
+    <div *ngIf="loading" class="loading-container">
+      <mat-progress-spinner
+        mode="indeterminate"
+        diameter="50"
+        color="primary"
+      ></mat-progress-spinner>
+      <div class="loading-content">
+        <h3>Waiting for audio...</h3>
+        <p>Please wait while we connect to the server.</p>
+      </div>
     </div>
 
     <audio
